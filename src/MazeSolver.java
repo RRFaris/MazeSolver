@@ -54,8 +54,6 @@ public class MazeSolver {
      * @return An ArrayList of MazeCells in order from the start to end cell
      */
     public ArrayList<MazeCell> solveMazeDFS() {
-        // TODO: Use DFS to solve the maze
-        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST (use a stack)
         Stack<MazeCell> explored = new Stack<>();
         int currentRow = maze.getStartCell().getRow();
         int currentCol = maze.getStartCell().getCol();
@@ -101,45 +99,62 @@ public class MazeSolver {
      * @return An ArrayList of MazeCells in order from the start to end cell
      */
     public ArrayList<MazeCell> solveMazeBFS() {
-        // TODO: Use BFS to solve the maze
-        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST (use a queue)
         Queue<MazeCell> explored = new LinkedList<>();
         int currentRow = maze.getStartCell().getRow();
         int currentCol = maze.getStartCell().getCol();
         MazeCell currentCell = maze.getCell(currentRow, currentCol);
         MazeCell nextCell = null;
 
+        currentCell.setExplored(true);
+        explored.add(currentCell);
+
         // Main loop
         while (currentRow != maze.getEndCell().getRow() || currentCol != maze.getEndCell().getCol()) {
+            // Go to the new position in the grid from the top of the queue
+            currentCell = explored.remove();
+
+            // Set new Coordinates
+            currentRow = currentCell.getRow();
+            currentCol = currentCell.getCol();
+
             // Explores cells in the order NORTH, EAST, SOUTH, WEST
             // NORTH
             if (maze.isValidCell(currentRow -1, currentCol)) {
                 explored.add(maze.getCell(currentRow - 1, currentCol));
+
+                // Set parent immediately
+                maze.getCell(currentRow - 1, currentCol).setParent(currentCell);
+
                 maze.getCell(currentRow - 1, currentCol).setExplored(true);
             }
             // EAST
             if (maze.isValidCell(currentRow, currentCol + 1)) {
                 explored.add(maze.getCell(currentRow, currentCol + 1));
+
+                // Set parent immediately
+                maze.getCell(currentRow, currentCol + 1).setParent(currentCell);
+
                 maze.getCell(currentRow, currentCol + 1).setExplored(true);
             }
             // SOUTH
             if (maze.isValidCell(currentRow + 1, currentCol)) {
                 explored.add(maze.getCell(currentRow + 1, currentCol));
+
+                // Set parent immediately
+                maze.getCell(currentRow + 1, currentCol).setParent(currentCell);
+
                 maze.getCell(currentRow + 1, currentCol).setExplored(true);
             }
             // WEST
             if(maze.isValidCell(currentRow, currentCol - 1)) {
                 explored.add(maze.getCell(currentRow, currentCol - 1));
+
+                // Set parent immediately
+                maze.getCell(currentRow, currentCol - 1).setParent(currentCell);
+
                 maze.getCell(currentRow, currentCol - 1).setExplored(true);
             }
-
-            nextCell = explored.remove();
-            nextCell.setParent(currentCell);
-            currentCell = nextCell;
-            currentRow = currentCell.getRow();
-            currentCol = currentCell.getCol();
         }
-
         return getSolution();
     }
 
