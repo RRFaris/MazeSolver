@@ -5,6 +5,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class MazeSolver {
     private Maze maze;
@@ -27,9 +28,33 @@ public class MazeSolver {
      * @return An arraylist of MazeCells to visit in order
      */
     public ArrayList<MazeCell> getSolution() {
-        // TODO: Get the solution from the maze
-        // Should be from start to end cells
-        return null;
+        ArrayList<MazeCell> reverseSolution = new ArrayList<>();
+        MazeCell cell = maze.getEndCell();
+
+        // Gets the solution, but in reverse order
+        while (cell.getParent() != null) {
+            reverseSolution.add(cell);
+            cell = cell.getParent();
+        }
+        reverseSolution.add(maze.getStartCell());
+
+        // Use a stack to get solution in correct order
+        Stack<MazeCell> stack = new Stack<>();
+        int size = reverseSolution.size();
+
+        // Add cells to a stack
+        for (MazeCell mazeCell : reverseSolution) {
+            stack.push(mazeCell);
+        }
+
+        ArrayList<MazeCell> newSolution = new ArrayList<>();
+
+        // Pop off cells from the stack to reverse the order
+        for (int i = 0; i < size; i++) {
+            newSolution.add(stack.pop());
+        }
+
+        return newSolution;
     }
 
     /**
@@ -38,7 +63,18 @@ public class MazeSolver {
      */
     public ArrayList<MazeCell> solveMazeDFS() {
         // TODO: Use DFS to solve the maze
-        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
+        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST (use a stack)
+        Stack<MazeCell> explored = new Stack<>();
+        int row = maze.getStartCell().getRow();
+        int col = maze.getStartCell().getCol();
+
+        // Explores cells in the order NORTH, EAST, SOUTH, WEST
+
+        if (maze.getCell()) {
+
+        }
+
+
         return null;
     }
 
@@ -48,7 +84,8 @@ public class MazeSolver {
      */
     public ArrayList<MazeCell> solveMazeBFS() {
         // TODO: Use BFS to solve the maze
-        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
+        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST (use a queue)
+
         return null;
     }
 

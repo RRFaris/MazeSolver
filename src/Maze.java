@@ -147,6 +147,10 @@ public class Maze {
      */
     public boolean isValidCell(int row, int col) {
         // TODO: Complete this function
-        return true;
+        MazeCell cell = new MazeCell(row, col);
+        if (cell.isWall() || cell.isExplored() || (row < 0 || row > numRows) || (col < 0 || col > numCols))
+            return false;
+        else
+            return true;
     }
 }
